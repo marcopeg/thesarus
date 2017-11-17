@@ -1,0 +1,25 @@
+html
+    head
+        meta(charset="UTF-8")
+        title= meta.title
+        
+        // Mobile Properties
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1")
+        meta(name="apple-mobile-web-app-title" content= meta.title)
+        meta(name="apple-mobile-web-app-capable" content="yes")
+
+        // Client's CSS
+        each css_url in meta.src.css
+            link(rel="stylesheet" href=css_url)
+
+    body
+        // Client's app render poing
+        div#react-root
+            
+        // Client's app initial payload
+        script.
+            window._sharedData = !{JSON.stringify(shared_data)}
+
+        // Client's JS
+        each script_url in meta.src.js
+            script(src=script_url)

@@ -1,0 +1,32 @@
+
+[ignore]
+.*dist/.*
+.*node_modules/.*
+
+[include]
+./src
+
+[libs]
+.*flow-typed/.*
+
+[options]
+module.name_mapper='^Components\/\(.*\)$' -> '<PROJECT_ROOT>/src/components/\1'
+module.name_mapper='^Components$' -> '<PROJECT_ROOT>/src/components'
+module.name_mapper='^Containers\/\(.*\)$' -> '<PROJECT_ROOT>/src/containers/\1'
+module.name_mapper='^Containers$' -> '<PROJECT_ROOT>/src/containers'
+module.name_mapper='^Layouts\/\(.*\)$' -> '<PROJECT_ROOT>/src/layouts/\1'
+module.name_mapper='^Layouts$' -> '<PROJECT_ROOT>/src/layouts'
+module.name_mapper='^Reducers\/\(.*\)$' -> '<PROJECT_ROOT>/src/reducers/\1'
+module.name_mapper='^Reducers$' -> '<PROJECT_ROOT>/src/reducers'
+module.name_mapper='^Routes\/\(.*\)$' -> '<PROJECT_ROOT>/src/routes/\1'
+module.name_mapper='^Routes$' -> '<PROJECT_ROOT>/src/routes'
+module.name_mapper='^Sagas\/\(.*\)$' -> '<PROJECT_ROOT>/src/sagas/\1'
+module.name_mapper='^Sagas$' -> '<PROJECT_ROOT>/src/sagas'
+module.name_mapper='^Services\/\(.*\)$' -> '<PROJECT_ROOT>/src/services/\1'
+module.name_mapper='^Services$' -> '<PROJECT_ROOT>/src/services'
+module.name_mapper='^Lib\/\(.*\)$' -> '<PROJECT_ROOT>/src/lib/\1'
+module.name_mapper='^Lib$' -> '<PROJECT_ROOT>/src/lib'
+module.name_mapper='^Style\/\(.*\)$' -> '<PROJECT_ROOT>/src/style/\1'
+module.name_mapper='^Style$' -> '<PROJECT_ROOT>/src/style'
+module.name_mapper='^root\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
+module.name_mapper='^root$' -> '<PROJECT_ROOT>/src'

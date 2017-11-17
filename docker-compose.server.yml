@@ -1,0 +1,24 @@
+version: '2'
+services:
+    server:
+        image: node:9.2
+        ports:
+            - ${SERVER_PORT}:${SERVER_PORT}
+        volumes:
+            - ./services/frontend/server:/usr/src/app
+        environment:
+            NODE_ENV: development
+            LOG_LEVEL: ${LOG_LEVEL}
+            SERVER_PORT: ${SERVER_PORT}
+            SERVER_NAME: ${SERVER_NAME}
+            SERVER_SECRET: ${SERVER_SECRET}
+            # pg
+            PG_HOST: ${PG_HOST}
+            PG_PORT: ${PG_PORT}
+            PG_USER: ${PG_USER}
+            PG_PASSWORD: ${PG_PASSWORD}
+            PG_DATABASE: ${PG_DATABASE}
+            PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
+            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
+        working_dir: /usr/src/app
+        entrypoint: ["yarn", "run:dev"]

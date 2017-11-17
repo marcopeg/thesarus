@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1">
+        <title>App - Development</title>
+
+        <!-- iOS -->
+        <meta name="apple-mobile-web-app-title" content="App - Development">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+    </head>
+    <body>
+        <div id="react-root"></div>
+
+        <!-- Pass additional info to the app -->
+        <script>
+        window._initialState = {
+            settings: {
+                name: 'Thesarus App',
+                endpoint: 'http://localhost:8080/api/v1',
+            }
+        }
+        </script>
+
+        <!-- Main -->
+        <script src="/vendor.js"></script>
+        <script src="/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
+    },
+    "extends": ["airbnb-base", "airbnb-flow"],
+    "rules": {
+        "semi": ["error", "never"],
+        "indent": [2, 4, {
+            "SwitchCase": 1
+        }],
+        "array-bracket-spacing": ["error", "always", {
+            "objectsInArrays": false,
+            "arraysInArrays": false
+        }],
+        "new-cap": ["error", {
+            "newIsCap": true,
+            "capIsNew": false
+        }],
+        "space-before-function-paren": ["error", "always"],
+        "no-use-before-define": ["error", {
+            "functions": false,
+            "classes": true
+        }]
+    }
+}
