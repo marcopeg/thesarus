@@ -1,13 +1,16 @@
 
 import Sequelize from 'sequelize'
 
-const modelName = 'Card'
+const modelName = 'Link'
 
 const fields = {
-    id: {
+    w1: {
         type: Sequelize.BIGINT,
         primaryKey: true,
-        autoIncrement: true,
+    },
+    w2: {
+        type: Sequelize.BIGINT,
+        primaryKey: true,
     },
     createdAt: {
         type: Sequelize.DATE,
@@ -19,29 +22,16 @@ const fields = {
         defaultValue: Sequelize.NOW,
         field: 'updated_at',
     },
-    projectId: {
-        type: Sequelize.BIGINT,
-        field: 'project_id',
-        allowNull: false,
-    },
-    title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    quadrant: {
-        type: Sequelize.ENUM('iu', 'in', 'nu', 'nn'),
-        allowNull: true,
-    },
-    moscow: {
-        type: Sequelize.ENUM('m', 's', 'c', 'w'),
-        allowNull: true,
+    accuracy: {
+        type: Sequelize.INTEGER,
+        defaultValue: 50,
     },
 }
 
 const indexes = []
 
 const options = {
-    tableName: 'cards',
+    tableName: 'links',
     freezeTableName: true,
     underscored: true,
     createdAt: true,

@@ -1,7 +1,7 @@
 
 import Sequelize from 'sequelize'
 
-const modelName = 'Project'
+const modelName = 'Word'
 
 const fields = {
     id: {
@@ -19,16 +19,20 @@ const fields = {
         defaultValue: Sequelize.NOW,
         field: 'updated_at',
     },
-    title: {
+    value: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    locale: {
+        type: Sequelize.JSONB,
+        defaultValue: {},
     },
 }
 
 const indexes = []
 
 const options = {
-    tableName: 'projects',
+    tableName: 'words',
     freezeTableName: true,
     underscored: true,
     createdAt: true,
