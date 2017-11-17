@@ -5,22 +5,12 @@ const modelName = 'Link'
 
 const fields = {
     w1: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true,
     },
     w2: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true,
-    },
-    createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'created_at',
-    },
-    updatedAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'updated_at',
     },
     accuracy: {
         type: Sequelize.INTEGER,
@@ -28,15 +18,12 @@ const fields = {
     },
 }
 
-const indexes = []
-
 const options = {
     tableName: 'links',
     freezeTableName: true,
     underscored: true,
-    createdAt: true,
-    updatedAt: true,
-    indexes,
+    createdAt: false,
+    updatedAt: false,
 }
 
 const init = (conn) => {

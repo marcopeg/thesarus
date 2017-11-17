@@ -4,23 +4,9 @@ import Sequelize from 'sequelize'
 const modelName = 'Word'
 
 const fields = {
-    id: {
-        type: Sequelize.BIGINT,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'created_at',
-    },
-    updatedAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'updated_at',
-    },
     value: {
         type: Sequelize.STRING,
+        primaryKey: true,
         allowNull: false,
     },
     locale: {
@@ -29,15 +15,12 @@ const fields = {
     },
 }
 
-const indexes = []
-
 const options = {
     tableName: 'words',
     freezeTableName: true,
     underscored: true,
-    createdAt: true,
-    updatedAt: true,
-    indexes,
+    createdAt: false,
+    updatedAt: false,
 }
 
 const init = (conn) => {

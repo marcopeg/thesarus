@@ -8,12 +8,10 @@ import { $App } from 'express'
 // import project's middlewares
 
 import rootRouter from './root'
-import projectsRouter from './api-v1/projects'
-import cardsRouter from './api-v1/cards'
+import synonymRouter from './api-v1/synonym'
 
 export default (app: $App) => {
-    app.use('/api/v1/projects', projectsRouter)
-    app.use('/api/v1/cards', cardsRouter)
+    app.use('/api/v1/synonym', synonymRouter)
 
     // client rendering
     app.use('/', rootRouter)
