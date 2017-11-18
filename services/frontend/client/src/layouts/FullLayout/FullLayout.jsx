@@ -4,9 +4,14 @@ import PropTypes from 'prop-types'
 // $FlowFixMe
 import styles from './FullLayout.module.styl'
 
-const FullLayout = ({ children, color }) => (
+const getWrapperStyles = props => [
+    styles.wrapper,
+    props.scrollable ? styles.scrollable : '',
+].join(' ')
+
+const FullLayout = ({ children, color, ...props }) => (
     <div
-      className={styles.wrapper}
+      className={getWrapperStyles(props)}
       style={{
           backgroundColor: color || 'inherith',
       }}

@@ -2,6 +2,8 @@
 import { set as setWords } from 'Reducers/words-reducer'
 import { push as pushError } from 'Reducers/errors-reducer'
 
+const wordDataModel = ({ id }) => ({ id })
+
 export const fetchWords = () => async (dispatch, getState) => {
     const { settings } = getState()
 
@@ -13,7 +15,7 @@ export const fetchWords = () => async (dispatch, getState) => {
         const body = await res.json()
 
         if (res.ok) {
-            dispatch(setWords(body.data))
+            dispatch(setWords(body.data.map(wordDataModel)))
         } else {
             dispatch(pushError(res.statusText))
         }

@@ -2,32 +2,46 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { navigateTo } from 'root/history'
 
 import FullLayout from 'Layouts/FullLayout'
 import Toolbar from 'Components/Toolbar'
+import WordsList from 'Components/WordsList'
 
 // $FlowFixMe
 import styles from './App.module.styl'
 
-const mapState = ({ settings }) => ({
-    appName: settings.name,
+const mapState = ({ settings, words }) => ({
+    title: settings.name,
+    words: words.items,
 })
 
-const mapDispatch = {}
+const mapDispatch = {
+    onDisclose: word => () => navigateTo(`/${word.id}`),
+}
 
-const App = ({ appName }) => (
+const App = ({ title, words, onDisclose }) => (
     <FullLayout>
         <div className={styles.toolbar}>
-            <Toolbar title={appName} />
+            <Toolbar title={title} />
         </div>
         <div className={styles.body}>
-            {'body...'}
+            <WordsList
+              items={words}
+              onDisclose={onDisclose}
+            />
         </div>
     </FullLayout>
 )
 
+const wordShape = PropTypes.shape({
+    id: PropTypes.string.isRequired,
+})
+
 App.propTypes = {
-    appName: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    words: PropTypes.arrayOf(wordShape).isRequired,
+    onDisclose: PropTypes.func.isRequired,
 }
 
 export default withRouter(connect(mapState, mapDispatch)(App))
