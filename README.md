@@ -4,6 +4,98 @@ This is an opinionated setup that you can use to build a modern client/server ap
 
 Then you use Docker to release it and run on Amazon ECS or whatever else infrastructure you might like.
 
+## API
+
+### get://api/v1/words
+
+list all words
+
+```
+{
+    data: [
+        {
+            type: 'words',
+            id: 'hound',
+            attributes: {
+                locale: {},
+            },
+        },
+    ],
+}
+```
+
+### get://api/v1/words/:word
+
+get synonyms for a specific word
+
+```
+{
+    "data": {
+        "type": "words",
+        "id": "hound",
+        "attributes": {
+            "word": {
+                "id": "hound",
+                "locale": {}
+            }
+        },
+        "relationships": {
+            "synonyms": {
+                "data": [
+                    {
+                        "type": "words",
+                        "id": "dog"
+                    }
+                ]
+            }
+        }
+    },
+    "included": [
+        {
+            "type": "words",
+            "id": "dog",
+            "attributes": {
+                "id": "dog",
+                "locale": {}
+            }
+        }
+    ]
+}
+```
+
+### post://api/v1/synonyms/:w1/:w2
+
+Add a link between two words, it also creates the words records
+if they do not exists
+
+response body:
+
+```
+{
+    "data": {
+        "type": "links",
+        "id": "light-bright"
+    }
+}
+```
+
+### post://api/v1/synonyms/:w1
+
+**DRAFT:** this route should implement multiple links in one single request
+
+request body:
+
+```
+{
+    data: {
+        type: 'multiple-link',
+        attrbutes: {
+            synonyms: [ 'word1', 'word2', ... ],
+        },
+    },
+}
+```
+
 ## Technology Stack
 
 ### Server
