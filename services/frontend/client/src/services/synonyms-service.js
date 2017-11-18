@@ -5,12 +5,15 @@ import { push as pushError } from 'Reducers/errors-reducer'
 import {
     push as pushSynonym,
     select as selectSynonym,
+    dismiss as dismissSynonym,
 } from 'Reducers/synonyms-reducer'
 
 const wordDataModel = ({ id }) => ({ id })
 
 export const fetchSynonym = ({ word }) => async (dispatch, getState) => {
     const { settings, synonyms } = getState()
+
+    dispatch(dismissSynonym())
 
     const cache = synonyms.items
         .filter(item => item.id === word)
