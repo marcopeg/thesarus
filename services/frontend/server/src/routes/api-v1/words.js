@@ -6,8 +6,7 @@ import type { $Request, $Response } from 'express'
 import express from 'express'
 
 import { sendError } from '../../lib/jsonapi'
-import upsertWord from '../../lib/upsert-word'
-import upsertLink from '../../lib/upsert-link'
+import { getModel } from '../../services/pg'
 
 /**
  * Routes Declaration
@@ -16,8 +15,8 @@ import upsertLink from '../../lib/upsert-link'
 const router = express.Router()
 export default router
 
-router.post('/:w1/:w2',
-    addSynonym)
+router.get('/',
+    listWords)
 
 /**
  * Local Middlewares
@@ -27,12 +26,18 @@ router.post('/:w1/:w2',
  * Routes Implementation
  */
 
-async function addSynonym (req: $Request, res: $Response) {
+async function listWords (req: $Request, res: $Response) {
     try {
-        await upsertWord(req.params.w1)
-        await upsertWord(req.params.w2)
-        await upsertLink(req.params.w1, req.params.w2)
-        res.send('ok')
+        const Word = await getModel('Word')
+        const words = await Word.findAll({ raw: true })
+
+        res.send({
+            data: words.map(word => ({
+                type: 'words',
+                id: word.value,
+                attributes: word,
+            })),
+        })
     } catch (e) {
         sendError(res, 500, e.message, e)
     }
