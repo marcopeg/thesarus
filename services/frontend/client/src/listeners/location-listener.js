@@ -1,7 +1,13 @@
 
+import Route from 'route-parser'
 import logger from 'Lib/logger'
 
-const routes = []
+import { fetchSynonym } from 'Services/synonyms-service'
+
+const routes = [{
+    test: new Route('/:word'),
+    action: fetchSynonym,
+}]
 
 const onLocationChange = ({ payload }) => (dispatch) => {
     const { pathname } = payload

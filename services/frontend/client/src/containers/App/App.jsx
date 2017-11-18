@@ -1,47 +1,27 @@
+/* eslint react/no-children-prop:off */
+
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import { navigateTo } from 'root/history'
 
 import FullLayout from 'Layouts/FullLayout'
-import Toolbar from 'Components/Toolbar'
-import WordsList from 'Components/WordsList'
+import Screen from 'Layouts/Screen'
 
-// $FlowFixMe
-import styles from './App.module.styl'
+import HomePage from 'Routes/HomePage'
+import WordPage from 'Routes/WordPage'
 
-const mapState = ({ settings, words }) => ({
-    title: settings.name,
-    words: words.items,
-})
-
-const mapDispatch = {
-    onDisclose: word => () => navigateTo(`/${word.id}`),
-}
-
-const App = ({ title, words, onDisclose }) => (
+const App = () => (
     <FullLayout>
-        <div className={styles.toolbar}>
-            <Toolbar title={title} />
-        </div>
-        <div className={styles.body}>
-            <WordsList
-              items={words}
-              onDisclose={onDisclose}
-            />
-        </div>
+        <HomePage />
+        <Route
+          path={'/:word'}
+          children={({ match }) => (
+              <Screen isVisible={match !== null}>
+                  <WordPage />
+              </Screen>
+          )}
+        />
     </FullLayout>
 )
 
-const wordShape = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-})
-
-App.propTypes = {
-    title: PropTypes.string.isRequired,
-    words: PropTypes.arrayOf(wordShape).isRequired,
-    onDisclose: PropTypes.func.isRequired,
-}
-
-export default withRouter(connect(mapState, mapDispatch)(App))
+export default withRouter(App)
