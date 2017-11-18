@@ -5,7 +5,7 @@
 import type { $Request, $Response } from 'express'
 import express from 'express'
 
-import { sendError } from '../../lib/jsonapi'
+import { sendData, sendError } from '../../lib/jsonapi'
 import upsertWord from '../../lib/upsert-word'
 import upsertLink from '../../lib/upsert-link'
 
@@ -32,7 +32,7 @@ async function addSynonym (req: $Request, res: $Response) {
         await upsertWord(req.params.w1)
         await upsertWord(req.params.w2)
         await upsertLink(req.params.w1, req.params.w2)
-        res.send({
+        sendData(res, {
             data: {
                 type: 'links',
                 id: `${req.params.w1}-${req.params.w2}`,

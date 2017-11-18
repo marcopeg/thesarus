@@ -5,7 +5,7 @@
 import type { $Request, $Response } from 'express'
 import express from 'express'
 
-import { sendError } from '../../lib/jsonapi'
+import { sendData, sendError } from '../../lib/jsonapi'
 import { getModel } from '../../services/pg'
 
 /**
@@ -70,9 +70,9 @@ async function getWord (req: $Request, res: $Response) {
                  },
                  raw: true,
              })
-         ))
+        ))
 
-        res.send({
+        sendData(res, {
             data: {
                 type: 'words',
                 id: word.id,
@@ -102,7 +102,7 @@ async function listWords (req: $Request, res: $Response) {
         const Word = await getModel('Word')
         const words = await Word.findAll({ raw: true })
 
-        res.send({
+        sendData(res, {
             data: words.map(word => ({
                 type: 'words',
                 id: word.id,
