@@ -7,7 +7,6 @@ import express from 'express'
 import { get as getConfig } from '../lib/config'
 
 // import middlewares
-import keepCalmAndSlowDown from '../middlewares/keep-calm-and-slow-down'
 import { getSources } from '../services/vendor-src'
 
 /**
@@ -20,7 +19,6 @@ export default router
 // We suggest you declare a route and list all the middlewares that
 // should be involved plus the route handler in an array.
 router.get('/*', [
-    keepCalmAndSlowDown(),
     renderHomePage,
 ])
 
