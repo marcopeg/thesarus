@@ -7,7 +7,9 @@
 
 import eachSeries from 'async/eachSeries'
 
-const services = []
+const services = [
+    require('./words-service'),
+]
 
 class ServicesInitError extends Error {}
 class ServicesStartError extends Error {}
