@@ -4,7 +4,7 @@ import Sequelize from 'sequelize'
 const modelName = 'Word'
 
 const fields = {
-    value: {
+    id: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false,
