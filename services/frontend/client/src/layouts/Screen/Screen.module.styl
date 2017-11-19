@@ -5,15 +5,23 @@
     left: 0
     width: 100vw
     height: 100vh
-    background: #fff
     z-index: 1100
     display: flex
     flex-direction: column
     transition: transform 450ms ease
     box-shadow: 0 0 20px #666
 
-.slideRight--exited
+.none--exited
+    display: none
+
+.slideLeft--exited
     transform: translate3d(110vw, 0, 0)
 
-.slideRight--endered
+.slideLeft--endered
+    transform: translate3d(0, 0, 0)
+
+.slideUp--exited
+    transform: translate3d(0, 110vh, 0)
+
+.slideUp--endered
     transform: translate3d(0, 0, 0)

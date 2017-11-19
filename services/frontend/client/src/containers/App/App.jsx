@@ -9,6 +9,8 @@ import Screen from 'Layouts/Screen'
 
 import HomePage from 'Routes/HomePage'
 import WordPage from 'Routes/WordPage'
+import AddWordModal from 'Containers/AddWordModal'
+import ErrorModal from 'Containers/ErrorModal'
 
 const App = () => (
     <FullLayout>
@@ -21,6 +23,8 @@ const App = () => (
               </Screen>
           )}
         />
+        <AddWordModal />
+        <ErrorModal />
     </FullLayout>
 )
 

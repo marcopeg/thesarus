@@ -24,6 +24,10 @@ export const fetchWords = () => async (dispatch, getState) => {
     }
 }
 
+export const addWord = ({ word }) => (dispatch) => {
+    dispatch(pushError(`add word: ${word} - not implemented yet!`))
+}
+
 export const start = async (dispatch) => {
     dispatch(fetchWords())
 }

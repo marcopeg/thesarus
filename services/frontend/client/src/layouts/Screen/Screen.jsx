@@ -9,8 +9,11 @@ const getWrapperStyles = ({ effect, isVisible }) => [
     styles[`${effect}--${isVisible ? 'entered' : 'exited'}`],
 ].join(' ')
 
-const Screen = ({ isVisible, children, effect }) => (
-    <div className={getWrapperStyles({ effect, isVisible })}>
+const Screen = ({ isVisible, children, effect, color }) => (
+    <div
+      className={getWrapperStyles({ effect, isVisible })}
+      style={{ backgroundColor: color }}
+    >
         {children}
     </div>
 )
@@ -18,11 +21,13 @@ const Screen = ({ isVisible, children, effect }) => (
 Screen.propTypes = {
     children: PropTypes.any.isRequired, // eslint-disable-line
     isVisible: PropTypes.bool.isRequired,
-    effect: PropTypes.oneOf([ 'slideRight' ]),
+    effect: PropTypes.oneOf([ 'none', 'slideLeft', 'slideUp' ]),
+    color: PropTypes.string,
 }
 
 Screen.defaultProps = {
-    effect: 'slideRight',
+    effect: 'slideLeft',
+    color: '#fff',
 }
 
 export default Screen

@@ -3,8 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { navigateTo } from 'root/history'
 
+import { show as showModal } from 'Reducers/modals-reducer'
+
+import AppBar from 'material-ui/AppBar'
+import IconButton from 'material-ui/IconButton'
+import IconAdd from 'material-ui/svg-icons/content/add'
+
 import FullLayout from 'Layouts/FullLayout'
-import Toolbar from 'Components/Toolbar'
 import WordsList from 'Components/WordsList'
 
 const mapState = ({ settings, words }) => ({
@@ -14,11 +19,20 @@ const mapState = ({ settings, words }) => ({
 
 const mapDispatch = {
     onDisclose: word => () => navigateTo(`/${word.id}`),
+    onAddWord: () => showModal('newWord'),
 }
 
-const App = ({ title, words, onDisclose }) => (
+const App = ({ title, words, onDisclose, onAddWord }) => (
     <FullLayout>
-        <Toolbar title={title} />
+        <AppBar
+          title={title}
+          showMenuIconButton={false}
+          iconElementRight={(
+              <IconButton onClick={onAddWord}>
+                  <IconAdd />
+              </IconButton>
+          )}
+        />
         <WordsList
           items={words}
           onDisclose={onDisclose}
@@ -34,6 +48,7 @@ App.propTypes = {
     title: PropTypes.string.isRequired,
     words: PropTypes.arrayOf(wordShape).isRequired,
     onDisclose: PropTypes.func.isRequired,
+    onAddWord: PropTypes.func.isRequired,
 }
 
 export default connect(mapState, mapDispatch)(App)
