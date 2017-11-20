@@ -36,14 +36,15 @@ class AddWordModal extends Component {
     }
 
     state = {
-        word: '',
+        word1: '',
+        word2: '',
     }
 
     onFieldChange = name => event => this.setState({ [name]: event.target.value })
 
     render () {
         const { isVisible, onSave, onCancel } = this.props
-        const { word } = this.state
+        const { word1, word2 } = this.state
 
         return (
             <Screen isVisible={isVisible} effect={'slideUp'}>
@@ -67,8 +68,15 @@ class AddWordModal extends Component {
                           floatingLabelText={'New Word:'}
                           floatingLabelFixed
                           hintText={'type the new word...'}
-                          value={word}
-                          onChange={this.onFieldChange('word')}
+                          value={word1}
+                          onChange={this.onFieldChange('word1')}
+                        />
+                        <TextField
+                          floatingLabelText={'Synonym:'}
+                          floatingLabelFixed
+                          hintText={'type a synonym to this word...'}
+                          value={word2}
+                          onChange={this.onFieldChange('word2')}
                         />
                     </div>
                 </FullLayout>
