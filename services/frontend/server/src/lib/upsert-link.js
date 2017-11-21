@@ -2,22 +2,24 @@ import { getModel } from '../services/pg'
 
 class UpsertLinkError extends Error {}
 
-async function upsertLink (w1: string, w2: string) {
+async function upsertLink (entityId: string, nodeId: number) {
     try {
         const Link = await getModel('Link')
         const link = await Link.findOne({
             where: {
-                $or: [
-                    { w1, w2 },
-                    { w1: w2, w2: w1 },
-                ],
+                entity_id: entityId,
+                node_id: nodeId,
             },
-            raw: true,
         })
 
         if (!link) {
-            await Link.create({ w1, w2 })
+            return Link.create({
+                entity_id: entityId,
+                node_id: nodeId,
+            })
         }
+
+        return link
     } catch (e) {
         throw new UpsertLinkError(e)
     }

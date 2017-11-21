@@ -1,22 +1,18 @@
 
 import Sequelize from 'sequelize'
 
-const modelName = 'Word'
+const modelName = 'Node'
 
 const fields = {
     id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false,
-    },
-    locale: {
-        type: Sequelize.JSONB,
-        defaultValue: {},
+        autoIncrement: true,
     },
 }
 
 const options = {
-    tableName: 'words',
+    tableName: 'nodes',
     freezeTableName: true,
     underscored: true,
     createdAt: false,

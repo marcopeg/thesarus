@@ -1,21 +1,26 @@
 
 import Sequelize from 'sequelize'
 
-const modelName = 'Link'
+const modelName = 'Entity'
 
 const fields = {
-    node_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-    },
-    entity_id: {
+    id: {
         type: Sequelize.STRING,
         primaryKey: true,
+        allowNull: false,
+    },
+    type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false,
     },
 }
 
 const options = {
-    tableName: 'links',
+    tableName: 'entities',
     freezeTableName: true,
     underscored: true,
     createdAt: false,

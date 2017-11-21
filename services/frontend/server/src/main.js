@@ -12,7 +12,8 @@ import {
     start as startPostgres,
 } from './services/pg'
 
-import Word from './models/word'
+import Entity from './models/entity'
+import Node from './models/node'
 import Link from './models/link'
 
 export async function start (): any {
@@ -45,7 +46,8 @@ export async function start (): any {
             maxAttempts: Number(getConfig('PG_MAX_CONN_ATTEMPTS')),
             attemptDelay: Number(getConfig('PG_CONN_ATTEMPTS_DELAY')),
             models: [
-                Word,
+                Entity,
+                Node,
                 Link,
             ],
         })
