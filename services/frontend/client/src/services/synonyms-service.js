@@ -28,7 +28,7 @@ export const fetchSynonym = ({ word }) => async (dispatch, getState) => {
         const headers = new Headers()
         headers.append('Content-Type', 'application/vnd.api+json')
 
-        const res = await fetch(`${settings.endpoint}/words/${word}`, { headers })
+        const res = await fetch(`${settings.endpoint}/graph/links/${word}`, { headers })
         const body = await res.json()
 
         if (res.ok) {

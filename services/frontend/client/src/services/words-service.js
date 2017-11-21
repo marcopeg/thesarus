@@ -12,7 +12,7 @@ export const fetchWords = () => async (dispatch, getState) => {
         const headers = new Headers()
         headers.append('Content-Type', 'application/vnd.api+json')
 
-        const res = await fetch(`${settings.endpoint}/words`, { headers })
+        const res = await fetch(`${settings.endpoint}/graph`, { headers })
         const body = await res.json()
 
         if (res.ok) {
@@ -32,9 +32,15 @@ export const addWord = ({ word1, word2 }) => async (dispatch, getState) => {
         const headers = new Headers()
         headers.append('Content-Type', 'application/vnd.api+json')
 
-        const res = await fetch(`${settings.endpoint}/synonyms/${word1}/${word2}`, {
+        const res = await fetch(`${settings.endpoint}/graph`, {
             headers,
             method: 'POST',
+            body: JSON.stringify({
+                entities: [
+                    { id: word1, type: 'word', title: word1 },
+                    { id: word2, type: 'word', title: word2 },
+                ],
+            }),
         })
 
         if (res.ok) {
