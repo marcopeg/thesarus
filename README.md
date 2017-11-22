@@ -1,102 +1,137 @@
 # Thesarus App
 
-This is an opinionated setup that you can use to build a modern client/server application based on ExpressJS and ReactJS.
-
+This is an opinionated setup that you can use to build a modern client/server application based on ExpressJS and ReactJS.  
 Then you use Docker to release it and run on Amazon ECS or whatever else infrastructure you might like.
 
-## API
+The business logic of the app implements a basic graph database that is used to create a
+extremely simple synonyms database. Like the Thesarus.
 
-### get://api/v1/words
+Some REST api allows to populate and explore the graph while a UI based on ReactJS
+serves as mobile interface to it.
 
-list all words
+## Quick Start
+
+**IMPORTANT:** This setup is developed and maintained on a Mac.
+The following instructions and the entire documentation are related to that platform only.
+
+1. Install [docker & docker-compose](https://www.docker.com/)
+2. Install [humble-cli](https://github.com/marcopeg/humble-cli)
+3. Run: `humble boot --prod`
+4. Visit: [`http://localhost:8080`](http://localhost:8080)
+5. Run: `Ctrl + c` to detach the terminal from the Docker session
+6. Run: `humble drop --prod` to stop the project
+
+If you want to run the e2e test suite just type:
+
+`humble test`
+
+## API Documentation
+
+### post://api/v1/graph
+
+Inject entities into the graph and link them together.
+
+request body:
 
 ```
 {
-    data: [
-        {
-            type: 'words',
-            id: 'hound',
-            attributes: {
-                locale: {},
-            },
-        },
-    ],
+  "entities" : [
+	{ "id": "dog", "type": "word", "title": "Dog" },
+	{ "id": "cane", "type": "word", "title": "Cane" }
+  ]
 }
 ```
 
-### get://api/v1/words/:word
-
-get synonyms for a specific word
+response body:
 
 ```
 {
-    "data": {
-        "type": "words",
-        "id": "hound",
-        "attributes": {
-            "word": {
-                "id": "hound",
-                "locale": {}
+    "data": [
+        {
+            "type": "link",
+            "nodeId": 2,
+            "entityId": "dog"
+        },
+        {
+            "type": "link",
+            "nodeId": 2,
+            "entityId": "cane"
+        }
+    ]
+}
+```
+
+### get://api/v1/graph
+
+list all existing entities
+
+```
+{
+    "data": [
+        {
+            "type": "word",
+            "id": "cane",
+            "attributes": {
+                "id": "cane",
+                "type": "word",
+                "title": "Cane"
             }
         },
-        "relationships": {
-            "synonyms": {
-                "data": [
-                    {
-                        "type": "words",
-                        "id": "dog"
-                    }
-                ]
-            }
-        }
-    },
-    "included": [
         {
-            "type": "words",
+            "type": "word",
             "id": "dog",
             "attributes": {
                 "id": "dog",
-                "locale": {}
+                "type": "word",
+                "title": "Dog"
             }
         }
     ]
 }
 ```
 
-### post://api/v1/synonyms/:w1/:w2
+### get://api/v1/graph/links/:entityId
 
-Add a link between two words, it also creates the words records
-if they do not exists
-
-response body:
+get existing links for a specific entry
 
 ```
 {
     "data": {
-        "type": "links",
-        "id": "light-bright"
-    }
-}
-```
-
-### post://api/v1/synonyms/:w1
-
-**DRAFT:** this route should implement multiple links in one single request
-
-request body:
-
-```
-{
-    data: {
-        type: 'multiple-link',
-        attrbutes: {
-            synonyms: [ 'word1', 'word2', ... ],
+        "type": "word",
+        "id": "cane",
+        "attributes": {
+            "id": "cane",
+            "type": "word",
+            "title": "Cane"
         },
+        "relationships": {
+            "synonyms": [
+                {
+                    "type": "word",
+                    "id": "dog"
+                }
+            ]
+        }
     },
+    "included": [
+        {
+            "type": "word",
+            "id": "dog",
+            "attributes": {
+                "id": "dog",
+                "type": "word",
+                "title": "Dog"
+            }
+        }
+    ]
 }
 ```
 
 ## Technology Stack
+
+### Database
+
+- Postgres
 
 ### Server
 
@@ -123,6 +158,11 @@ request body:
 - Live Reload (development)
 - Source Maps (development)
 
+### Testing
+
+- Selenium
+- WebdriverIO
+
 ## Software Dependencies
 
 You only need Docker to run this project.  
@@ -130,6 +170,26 @@ All NodeJS magic is wrapped into containers for you
 
 - [docker & docker-compose](https://www.docker.com/)
 - [humble-cli](https://github.com/marcopeg/humble-cli)
+
+## Project Quality Tools
+
+### ESLint
+
+### FlowJS
+
+### React PropTypes
+
+### E2E Tests
+
+The only way to really assess if a software really works is to execute it in
+an environment as close as possible to production.
+
+This project uses Docker, Selenium and WebdriverIO to run a production distribution
+of the service with a volatile database that get destroyed at every run so to
+guarantee that there are no uncoded prerequisites to the execution of the tests.
+
+Run: `humble test --build` to force a full production build and run the tests
+in an isolated sandbox.
 
 ## Humble CLI - Utility Scripts
 
@@ -419,25 +479,9 @@ Aliases conflicts also with ESLint, we use `eslint-plugin-import` with
 
 Say you want to work on the server without the client or on the client without the server being running:
 
-### Method 1: local env file
-
-Create a new text file `.env.local` in your project root and extend the `HUMBLE_ENV` definition in it:
-
 ```
-# File: .env.local
-HUMBLE_ENV=dev.server
+humble boot ${service-name}
 ```
-
-(replace "dev.server" with the service you want to run. You can concatenate multiple services using a column: `HUMBLE_ENV=dev-server:dev-client`)
-
-### Method 2: CLI Override
-
-The variable `HUMBLE_ENV` can be forced via command line, try to run this on your terminal (from the project root):
-
-```
-HUMBLE_ENV=dev.client humble boot
-```
-(also in this case you can run multiple services)
 
 ## How to run the client app from Node?
 
@@ -445,7 +489,7 @@ You may want to skip Docker if you work only on the client and you feel Docker i
 
 #### 1. Node version
 
-The client uses node version `8.1.x`, I saw the client running with `6.4.x` but I strongly suggest you update to the lastest available node.
+The client uses node version `9.2.x`, I saw the client running with `6.4.x` but I strongly suggest you update to the latest available node.
 
 You may want to consider installing node via [NVM](https://github.com/creationix/nvm).
 
@@ -461,6 +505,8 @@ We are using Yarn instead of NPM. It feels more reliable and a little faster.
 Move into `/services/frontend/client`, I will refer to this folder as the **client root**.
 
 #### 4. Install dependencies
+
+**NOTE:** It is important to remove any dependency you may have installed through `Docker`.
 
 ```
 rm -rf node_modules

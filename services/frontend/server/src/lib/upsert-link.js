@@ -7,15 +7,15 @@ async function upsertLink (entityId: string, nodeId: number) {
         const Link = await getModel('Link')
         const link = await Link.findOne({
             where: {
-                entity_id: entityId,
-                node_id: nodeId,
+                entityId,
+                nodeId,
             },
         })
 
         if (!link) {
             return Link.create({
-                entity_id: entityId,
-                node_id: nodeId,
+                entityId,
+                nodeId,
             })
         }
 

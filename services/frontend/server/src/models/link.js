@@ -4,13 +4,15 @@ import Sequelize from 'sequelize'
 const modelName = 'Link'
 
 const fields = {
-    node_id: {
+    nodeId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        field: 'node_id',
     },
-    entity_id: {
+    entityId: {
         type: Sequelize.STRING,
         primaryKey: true,
+        field: 'entity_id',
     },
 }
 

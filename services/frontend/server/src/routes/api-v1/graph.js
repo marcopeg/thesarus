@@ -55,20 +55,17 @@ async function getLinksByEntity (req: $Request, res: $Response) {
         }
 
         const links = await Link.findAll({
-            where: { node_id: link.node_id },
+            where: { nodeId: link.nodeId },
         })
 
         const entities = await Entity.findAll({
-            where: { id: { $in: links.map(item => item.entity_id) } },
+            where: { id: { $in: links.map(item => item.entityId) } },
         })
 
         const word = [ ...entities ].filter(item => item.id === req.params.entityId).shift()
         const synonyms = [ ...entities ].filter(item => item.id !== req.params.entityId)
 
-        // const data = await Entity.findAll()
         sendData(res, {
-            link,
-            links,
             data: {
                 type: 'word',
                 id: word.id,
@@ -140,7 +137,7 @@ async function addEntities (req: $Request, res: $Response) {
         let node
         if (link) {
             node = await Node.findOne({
-                where: { id: link.node_id },
+                where: { id: link.nodeId },
             })
         } else {
             node = await Node.create({})
@@ -152,7 +149,13 @@ async function addEntities (req: $Request, res: $Response) {
             )
         )
 
-        sendData(res, links)
+        const data = links.map(item => ({
+            type: 'link',
+            nodeId: item.nodeId,
+            entityId: item.entityId,
+        }))
+
+        sendData(res, { data })
     } catch (e) {
         sendError(res, 500, e.message, e)
     }
