@@ -1,0 +1,53 @@
+version: '2'
+services:
+    postgres:
+        image: postgres:9.6
+        # ports:
+        #     - ${PG_PORT}:5432
+        environment:
+            POSTGRES_USER: ${PG_USER}
+            POSTGRES_PASSWORD: ${PG_PASSWORD}
+            POSTGRES_DB: ${PG_DATABASE}
+        restart: always
+
+    server:
+        build:
+            context: ./services/frontend
+            dockerfile: Dockerfile
+        ports:
+            - ${SERVER_PORT}:${SERVER_PORT}
+        depends_on:
+            - postgres
+        environment:
+            NODE_ENV: production
+            LOG_LEVEL: ${LOG_LEVEL}
+            SERVER_PORT: ${SERVER_PORT}
+            SERVER_NAME: ${SERVER_NAME}
+            SERVER_SECRET: ${SERVER_SECRET}
+            # pg
+            PG_HOST: ${PG_HOST}
+            PG_PORT: ${PG_PORT}
+            PG_USER: ${PG_USER}
+            PG_PASSWORD: ${PG_PASSWORD}
+            PG_DATABASE: ${PG_DATABASE}
+            PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
+            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
+        restart: always
+
+    selenium:
+        image: selenium/standalone-chrome:3.0.1-dysprosium
+
+    wdio:
+        image: marcopeg/node:0.1
+        depends_on:
+            - selenium
+            - server
+        volumes:
+            - ./services/wdio/src:/usr/src/app
+            - ${HUMBLE_DATA}/test-screenshots:/usr/src/screenshots
+            - ${HUMBLE_DATA}/test-reports:/usr/src/reports
+        environment:
+            SELENIUM_HOST: selenium
+            SELENIUM_PORT: 4444
+            SELENIUM_BROWSER: chrome
+        entrypoint: ["npm", "run", "start:dev"]

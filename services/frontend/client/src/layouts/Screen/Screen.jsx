@@ -9,10 +9,13 @@ const getWrapperStyles = ({ effect, isVisible }) => [
     styles[`${effect}--${isVisible ? 'entered' : 'exited'}`],
 ].join(' ')
 
-const Screen = ({ isVisible, children, effect, color }) => (
+const Screen = ({ isVisible, children, effect, color, zIndex }) => (
     <div
       className={getWrapperStyles({ effect, isVisible })}
-      style={{ backgroundColor: color }}
+      style={{
+          backgroundColor: color,
+          zIndex,
+      }}
     >
         {children}
     </div>
@@ -23,11 +26,13 @@ Screen.propTypes = {
     isVisible: PropTypes.bool.isRequired,
     effect: PropTypes.oneOf([ 'none', 'slideLeft', 'slideUp' ]),
     color: PropTypes.string,
+    zIndex: PropTypes.number,
 }
 
 Screen.defaultProps = {
     effect: 'slideLeft',
     color: '#fff',
+    zIndex: 9999,
 }
 
 export default Screen
