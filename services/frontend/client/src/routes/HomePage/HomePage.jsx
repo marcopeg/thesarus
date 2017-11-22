@@ -28,7 +28,10 @@ const App = ({ title, words, onDisclose, onAddWord }) => (
           title={title}
           showMenuIconButton={false}
           iconElementRight={(
-              <IconButton onClick={onAddWord}>
+              <IconButton
+                onClick={onAddWord}
+                data-test={'create-word'}
+              >
                   <IconAdd />
               </IconButton>
           )}

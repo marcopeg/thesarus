@@ -6,7 +6,10 @@ import FullLayout from 'Layouts/FullLayout'
 import WordCard from './WordCard'
 
 const WordsList = ({ items, onDisclose }) => (
-    <FullLayout scrollable>
+    <FullLayout
+      scrollable
+      dataTest={'words-list'}
+    >
         <List>
             {items.map(item => (
                 <WordCard

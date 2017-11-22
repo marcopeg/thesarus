@@ -14,8 +14,8 @@ services:
         build:
             context: ./services/frontend
             dockerfile: Dockerfile
-        ports:
-            - ${SERVER_PORT}:${SERVER_PORT}
+        # ports:
+        #     - ${SERVER_PORT}:${SERVER_PORT}
         depends_on:
             - postgres
         environment:
@@ -50,4 +50,4 @@ services:
             SELENIUM_HOST: selenium
             SELENIUM_PORT: 4444
             SELENIUM_BROWSER: chrome
-        entrypoint: ["npm", "run", "start:dev"]
+        entrypoint: ["npm", "run", "start"]

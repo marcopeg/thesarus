@@ -52,7 +52,10 @@ class AddWordModal extends Component {
                     <AppBar
                       title={'Add New Word'}
                       iconElementLeft={(
-                          <IconButton onClick={onCancel}>
+                          <IconButton
+                            onClick={onCancel}
+                            data-test={'create-word-cancel'}
+                          >
                               <NavigationClose />
                           </IconButton>
                       )}
@@ -60,6 +63,7 @@ class AddWordModal extends Component {
                           <FlatButton
                             label={'save'}
                             onClick={() => onSave(this.state)}
+                            data-test={'create-word-submit'}
                           />
                       )}
                     />
@@ -70,6 +74,7 @@ class AddWordModal extends Component {
                           hintText={'type the new word...'}
                           value={word1}
                           onChange={this.onFieldChange('word1')}
+                          data-test={'create-word-fld1'}
                         />
                         <TextField
                           floatingLabelText={'Synonym:'}
@@ -77,6 +82,7 @@ class AddWordModal extends Component {
                           hintText={'type a synonym to this word...'}
                           value={word2}
                           onChange={this.onFieldChange('word2')}
+                          data-test={'create-word-fld2'}
                         />
                     </div>
                 </FullLayout>

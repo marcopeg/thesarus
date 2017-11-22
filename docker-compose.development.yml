@@ -1,11 +1,26 @@
 version: '2'
 services:
+    postgres:
+        image: postgres:9.6
+        ports:
+            - ${PG_PORT}:5432
+        environment:
+            POSTGRES_USER: ${PG_USER}
+            POSTGRES_PASSWORD: ${PG_PASSWORD}
+            POSTGRES_DB: ${PG_DATABASE}
+        volumes:
+            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+            - ${HUMBLE_DATA}/backup:/backup
+        restart: always
+
     server:
         image: node:9.2
         ports:
             - ${SERVER_PORT}:${SERVER_PORT}
         volumes:
             - ./services/frontend/server:/usr/src/app
+        depends_on:
+            - postgres
         environment:
             NODE_ENV: development
             LOG_LEVEL: ${LOG_LEVEL}
@@ -20,5 +35,14 @@ services:
             PG_DATABASE: ${PG_DATABASE}
             PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
             PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
+        working_dir: /usr/src/app
+        entrypoint: ["yarn", "run:dev"]
+
+    client:
+        image: node:9.2
+        ports:
+            - 3000:3000
+        volumes:
+            - ./services/frontend/client:/usr/src/app
         working_dir: /usr/src/app
         entrypoint: ["yarn", "run:dev"]
